@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: fastapi-demo2-deployment
+  namespace: fastapi-demo2
+  labels:
+    application: fastapi-demo2
+    stage: stg
+spec: 
+  replicas: 2
+  selector:
+    matchLabels:
+      csti.kubernetes.application: fastapi-demo2
+  template:
+    metadata:
+      labels:
+        csti.kubernetes.application: fastapi-demo2
+    spec: 
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers: 
+        - name: fastapi-demo2
+          image: foxhound7812/fastapi_pq_backend_demo
+          ports: 
+          - containerPort: 5000
+          env:
+            - name: DATABASE_URL
+              value: postgres://postgres:postgres@192.168.70.20:5432/fastapi_pq_demo
+            - name: SECRET_KEY
+              value: 09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+          resources:
+            limits:
+              cpu: 250m
+              memory: 250Mi
+            requests:
+              cpu: 250m
+              memory: 250Mi
+      restartPolicy: Always

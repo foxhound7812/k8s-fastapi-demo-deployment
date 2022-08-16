@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastapi-demo-stg-svc
+  namespace: fastapi-demo-stg
+  labels:
+    application: fastapi-demo-stg
+    stage: stg
+spec:
+  ports:
+  - name: "80"
+    port: 80
+    targetPort: 5000
+  selector:
+    csti.kubernetes.application: fastapi-demo-stg
+status:
+  loadBalancer: {}
+---

@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: fastapi-demo2-ingress
+  namespace: fastapi-demo2
+  labels:
+    application: fastapi-demo2
+    stage: stg
+  annotations:
+    #nginx.ingress.kubernetes.io/rewrite-target: /$1
+    ingress.kubernetes.io/ssl-redirect: "false"
+    kubernetes.io/ingress.class: traefik
+    traefik.frontend.rule.type: PathPrefixStrip
+spec:
+  rules:
+  - host: fastapi-demo2-stg.iii.org.tw
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: fastapi-demo2-svc
+          servicePort: 80
